@@ -1,0 +1,18 @@
+# Core LLM & RAG
+langchain==0.2.16
+langchain-community==0.2.16
+langchain-groq==0.1.9
+# Vector store
+chromadb==0.5.5
+# Embeddings (runs locally)
+sentence-transformers==2.7.0
+# Document loading
+pypdf==4.3.1
+pandas==2.2.2
+openpyxl==3.1.5
+# UI
+streamlit==1.37.1
+# Utilities
+python-dotenv==1.0.1
+langdetect==1.0.9
+pytest==8.3.2
