@@ -1,18 +1,25 @@
-# Core LLM & RAG
 langchain==0.2.16
 langchain-community==0.2.16
+langchain-core==0.2.43
 langchain-groq==0.1.9
-# Vector store
-chromadb==0.5.5
-# Embeddings (runs locally)
+langchain-text-splitters==0.2.4
+langsmith==0.1.147
+chromadb==0.4.24
 sentence-transformers==2.7.0
-# Document loading
+numpy==1.26.4
 pypdf==4.3.1
 pandas==2.2.2
 openpyxl==3.1.5
-# UI
 streamlit==1.37.1
-# Utilities
 python-dotenv==1.0.1
 langdetect==1.0.9
 pytest==8.3.2
+pydantic==2.13.4
+pydantic-core==2.46.4
+typing_extensions==4.15.0
+huggingface-hub==0.36.2
+transformers==4.57.6
+tokenizers==0.22.2
+safetensors==0.8.0
+tqdm==4.66.4
+requests==2.34.2
