@@ -62,8 +62,7 @@ def load_txt(file_path):
     doc = Document(
         page_content=content.strip(),
         metadata = {
-            "source" : file_path,
- 
+            "source" : file_path
         }
     )
 
