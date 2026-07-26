@@ -1,4 +1,10 @@
 from src.prompts import TABLE_PROMPT,SUMMARY_PROMPT,QA_PROMPT,CV_PROMPT
+import os
+from dotenv import load_dotenv
+from langchain_groq import ChatGroq
+from langchain_core.output_parsers import StrOutputParser
+load_dotenv()
+
 
 def format_context(chunks):
     context = "\n\n".join([doc.page_content for doc in chunks])
@@ -17,4 +23,21 @@ def detect_prompt(question , file_type):
         return SUMMARY_PROMPT
     else :
         return QA_PROMPT
-    
+
+def ask(question,vector_store,file_type="pdf"):
+    prompt = detect_prompt(question,file_type)
+    chunks = vector_store.similarity_search(question,k=3)
+    llm = ChatGroq(
+    model="llama3-8b-8192",
+    groq_api_key=os.getenv("GROQ_API_KEY"),
+    temperature=0
+    )
+    chain = prompt | llm | StrOutputParser()
+    context,sources = format_context(chunks)
+    answer = chain.invoke(
+    {
+        "context": context,
+        "question" : question
+    }
+    )
+    return {"answer":answer,"sources":sources}
