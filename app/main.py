@@ -15,3 +15,10 @@ st.set_page_config(
     page_icon="https://res.cloudinary.com/dtz0urit6/image/upload/q_auto:best,f_jpg/cloudinary-tools-uploads/ccuvnpuisgs2t1ulzkxp",
     layout="wide"
 )
+
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+if "vector_store" not in st.session_state:
+    st.session_state.vector_store = None
+if "file_type"not in st.session_state:
+    st.session_state.file_type = None
