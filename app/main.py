@@ -15,22 +15,18 @@ st.set_page_config(
     page_icon="https://res.cloudinary.com/dtz0urit6/image/upload/q_auto:best,f_jpg/cloudinary-tools-uploads/ccuvnpuisgs2t1ulzkxp",
     layout="wide"
 )
-
 if "messages" not in st.session_state:
     st.session_state.messages = []
 if "vector_store" not in st.session_state:
     st.session_state.vector_store = None
 if "file_type"not in st.session_state:
     st.session_state.file_type = None
-
 with st.sidebar:
     st.title("📂 Upload Document")
-
     uploaded_file = st.file_uploader(
         "Choose a file",
         type=["pdf","xlsx","csv" ,"txt"]
     )
-
     if uploaded_file is not None:
         file_ext = os.path.splitext(uploaded_file.name)[1].lower()
         with tempfile.NamedTemporaryFile(delete=False, suffix=file_ext) as tmp:
@@ -60,3 +56,28 @@ with st.sidebar:
     if st.button("🗑️ Clear Chat"):
         st.session_state.messages = []
         st.rerun()
+#main chat area
+st.title("🤖 Document Assistant")
+st.markdown("Upload a document in the sidebar and ask me anything about it")
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.write(message["content"])
+question = st.chat_input("Ask a question about your document...")
+if question:
+    #check if document is upladed
+    if st.session_state.vector_store is None:
+        st.warning("Please uplad the document first.")
+    else:
+        st.session_state.messages.append({"role":"user", "content":question})
+        with st.chat_message("user"):
+            st.write(question)
+        result = ask(question,st.session_state.vector_store,st.session_state.file_type)
+        answer = result["answer"]
+        sources = result["sources"]
+        st.session_state.messages.append({"role":"assistant","content":answer})
+        with st.chat_message("assistant"):
+            st.write(answer)
+        with st.expander("View sources"):
+            st.write(sources)
+        ##complete the rest
+        

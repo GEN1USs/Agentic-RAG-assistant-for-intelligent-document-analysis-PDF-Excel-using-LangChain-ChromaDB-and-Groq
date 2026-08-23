@@ -28,7 +28,7 @@ def ask(question,vector_store,file_type="pdf"):
     prompt = detect_prompt(question,file_type)
     chunks = vector_store.similarity_search(question,k=3)
     llm = ChatGroq(
-    model="llama-3.3-70b-versatile",
+    model="openai/gpt-oss-120b",
     groq_api_key=os.getenv("GROQ_API_KEY"),
     temperature=0
     )
