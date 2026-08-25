@@ -1,7 +1,7 @@
 langchain==0.2.16
 langchain-community==0.2.16
-langchain-core==0.2.43
-langchain-groq==0.1.9
+langchain-core==0.2.38
+langchain-groq==0.1.6
 langchain-text-splitters==0.2.4
 langsmith==0.1.147
 chromadb==0.4.24
@@ -20,7 +20,7 @@ typing_extensions==4.15.0
 huggingface-hub==0.36.2
 transformers==4.39.3
 torchvision==0.18.1
-tokenizers==0.22.2
+tokenizers==0.15.2
 safetensors==0.8.0
 tqdm==4.66.4
 requests==2.34.2
