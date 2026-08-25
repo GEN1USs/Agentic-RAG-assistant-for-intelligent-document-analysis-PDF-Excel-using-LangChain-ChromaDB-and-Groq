@@ -34,7 +34,7 @@ def ask(question,vector_store,file_type="pdf"):
     chunks = vector_store.similarity_search(question,k=3)
     llm = ChatGroq(
     model="openai/gpt-oss-120b",
-    groq_api_key=get_api_key()
+    groq_api_key=get_api_key(),
     temperature=0
     )
     chain = prompt | llm | StrOutputParser()
