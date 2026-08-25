@@ -3,8 +3,13 @@ import os
 from dotenv import load_dotenv
 from langchain_groq import ChatGroq
 from langchain_core.output_parsers import StrOutputParser
+import streamlit as st
 load_dotenv()
-
+def get_api_key():
+    try:
+        return st.secrets["GROQ_API_KEY"]
+    except:
+        return os.getenv("GROQ_API_KEY")
 
 def format_context(chunks):
     context = "\n\n".join([doc.page_content for doc in chunks])
@@ -29,7 +34,7 @@ def ask(question,vector_store,file_type="pdf"):
     chunks = vector_store.similarity_search(question,k=3)
     llm = ChatGroq(
     model="openai/gpt-oss-120b",
-    groq_api_key=os.getenv("GROQ_API_KEY"),
+    groq_api_key=get_api_key()
     temperature=0
     )
     chain = prompt | llm | StrOutputParser()
