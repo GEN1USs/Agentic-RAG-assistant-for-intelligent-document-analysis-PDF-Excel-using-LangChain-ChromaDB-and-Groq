@@ -21,13 +21,15 @@ if "vector_store" not in st.session_state:
     st.session_state.vector_store = None
 if "file_type"not in st.session_state:
     st.session_state.file_type = None
+if "processed_file" not in st.session_state:
+    st.session_state.processed_file = None
 with st.sidebar:
     st.title("📂 Upload Document")
     uploaded_file = st.file_uploader(
         "Choose a file",
         type=["pdf","xlsx","csv" ,"txt"]
     )
-    if uploaded_file is not None:
+    if uploaded_file is not None and uploaded_file != st.session_state.get("processed_file"):
         file_ext = os.path.splitext(uploaded_file.name)[1].lower()
         with tempfile.NamedTemporaryFile(delete=False, suffix=file_ext) as tmp:
             tmp.write(uploaded_file.read())
@@ -51,6 +53,7 @@ with st.sidebar:
             chunks = split_documents(docs,chunk_size=500,chunk_overlap=40)
             embedding_model = get_embedding_model()
             st.session_state.vector_store = build_vector_store(chunks,embedding_model)
+            st.session_state.processed_file = uploaded_file.name
             st.session_state.file_type = file_type
             st.success(f"✅ {uploaded_file.name} processed — {len(chunks)} chunks created")
     if st.button("🗑️ Clear Chat"):
@@ -71,7 +74,8 @@ if question:
         st.session_state.messages.append({"role":"user", "content":question})
         with st.chat_message("user"):
             st.write(question)
-        result = ask(question,st.session_state.vector_store,st.session_state.file_type)
+        with st.spinner("Thinking..."):
+            result = ask(question,st.session_state.vector_store,st.session_state.file_type)
         answer = result["answer"]
         sources = result["sources"]
         st.session_state.messages.append({"role":"assistant","content":answer})
@@ -80,4 +84,3 @@ if question:
         with st.expander("View sources"):
             st.write(sources)
         ##complete the rest
-        
