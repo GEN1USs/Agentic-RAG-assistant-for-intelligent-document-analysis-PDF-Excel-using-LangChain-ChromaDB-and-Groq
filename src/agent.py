@@ -47,7 +47,7 @@ Reply with ONLY one word : either "small_talk" or "document". Nothing else."""
     #check if it is small talk
     if "small_talk" in classification:
         small_talk_prompt = f"""You are a friendly document analysis assisstant. The user said "{question}" 
-        Respond anturally and briefly.Mention that you are a document assistant and can help analyze PDFs,Excel files , and text documents.
+        Respond anturally and briefly.Mention that you are a document assistant and you can help analyze PDFs,Excel files , and text documents.
         Keep it short and friendly."""
         response = llm.invoke(small_talk_prompt).content
         return {
